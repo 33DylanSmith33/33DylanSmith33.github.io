@@ -1,0 +1,6 @@
+theme: minima
+title: Dylan Smith
+description: >- # this means to ignore newlines until "baseurl:"
+    This is the personal website of Dylan Smith hosted on Github Pages.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://33dylansmith33.github.io/" # the base hostname & protocol for your site, e.g. http://example.com

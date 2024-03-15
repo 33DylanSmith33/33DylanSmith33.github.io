@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 9 Update - Smith</title>
+</head>
+<body>
+    <h1>Week 9 Update - Smith</h1>
+    <p><strong>What did you do last week?</strong></p>
+    <p>Last week, I finally conceptualized what is happening during back propagation. I found a video on youtube 
+        (by 3Blue1Brown or something like that) that explained the concept of NN's using visuals that really 
+        helped. One of the big hold ups that I had with this understanding was that when I was building my NN, I 
+        was feeding the data in aggregate rather than looking at what happens with a single input observation. 
+        Looking at it from a single observation strips away a lot of the complexity because now you cut away an 
+        extra step in understanding of how the backpropagation process is averaged across the input observations. 
+        When you look at the aggregate that way, you can't conceptually isolate things like "for this single 
+        observation with a single classification, the activations look like this. And when the activations look 
+        like this, we can compare that to what we want the output activations to look like to understand why the 
+        back propagation is changing weights the way that it is." Looking at it from that perpective helped me understand 
+        what is actually happening during back prop. The other thing I did last week was start a file structure and file 
+        where I started to build out the package that I will be building for this.</p>
+    <p><strong>What do you plan to do this week?</strong></p>
+    <p>Next week, now that I think I have the understanding at a point where training is less of a black box, I want to
+         start building out the classes and subclasses for the project. Subclasses will include things like layer, 
+         activation function, batch processing, etc. Implementing the architecture (for a simple MLP) and functioning up 
+         to forward propagation should be realtively easy and straight forward, so I think I can get up to that point in 
+         this next week. After that will be back propagation and fitting everything together which I think will take a bit longer. </p>
+    <p><strong>Are there any impediments in your way?</strong></p>
+    <p>My biggest obstacle throughout this whole process has just been understanding. I haven't been able to sit down for 5 
+        hours straight up until now to really understand everything conceptually, and as I mentioned above, I didn't have the 
+        right framework of looking at it one observation at a time. Now that I feel comfortable with that, I think the rest
+         of the steps should be easier to put together because it will be more of a coding issue than a conceptual issue.</p>
+    <p><strong>Reflection on the process, how can you make the process work better?</strong></p>
+    <p>To improve what I've been doing, I'm going to build and test my implementation for a single observation each training 
+        step (bad in practice but easier for testing and seeing how everything is working.) Something that would help would 
+        be to create a visual so I can see what is happening as it happens but I don't know if that is something worth doing 
+        for how much time it could possible take.</p>
+</html>

@@ -2,6 +2,9 @@ import pandas as pd
 import numpy as np
 # from matplotlib import pyplot as plt
 
+# import data is in the form of a tuple containing the training data and the testing data
+
+
 
 # have class for:
     # tensor class

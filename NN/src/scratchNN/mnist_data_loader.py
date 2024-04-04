@@ -33,7 +33,14 @@ def load_training_data(train_data_path):
     train_data = pd.read_csv(train_data_path)
     train_data = train_data.sample(frac=1).reset_index(drop=True)
     train_input_data = np.array(train_data.iloc[:, 1:].values)
+
+    # normalize the pixel values
+    train_input_data = train_input_data / 255.0
+    # transpose image data so that each column is an observation (image)
+    train_input_data = train_input_data.T
+
     train_labels = np.array(train_data.iloc[:, 0].values)
+    train_labels = one_hot_encode_label(train_labels)
 
     return (train_input_data, train_labels)
 
@@ -53,6 +60,7 @@ def load_testing_data(test_data_path):
     # and the rest of the cols are the pixel values
     test_data = pd.read_csv(test_data_path)
     test_data = test_data.sample(frac=1).reset_index(drop=True)
+    test_data = test_data.T
     
     return test_data
 
@@ -61,21 +69,26 @@ def one_hot_encode_label(labels):
     """Takes in a ndarray of number labels and returns a one-hot encoded    
     unit vector with a 1.0 in the  
 
+    Parameters: a numpy array of integer labels
+
+    returns: a 2D numpy array where each row corresponds to a one-hot encoded 
+    representation of the label
+
     for non integer labels, labels will have to be mapped to integers
     for this method to work properly 
     - create a function for this??    
     """
-
+    labels = labels.astype(int)
     num_labels = len(np.unique(labels))
-    print(num_labels)
-    oh_y = []
+    n = labels.shape[0] # number of observations/labels
+    
+    # initialize matrix of zeros
+    oh_y = np.zeros((n, num_labels))
 
-    for y in labels:
-        e = np.zeros((num_labels, 1))
-        e[y] = 1.0
-        oh_y.append(e)
+    for index, y in enumerate(labels):
+        oh_y[index, y] = 1.0
 
-    oh_y = np.array(oh_y)
-    return oh_y
+    # transpose so that each col is an observation
+    return oh_y.T
 
     

@@ -1,14 +1,28 @@
 from Layer import Dense
 from Optimizer import SGD
 from Activation import ReLU, SoftMax
+from Loss import Simple_Loss
 import numpy as np
+from mnist_data_loader import load_training_data, load_testing_data
 
 class Network:
 
     # will need to add methods to batch input data and get onehot encodings of labels for each batch
 
 
-    def __init__(self):
+    def __init__(self, train_path, test_path):
+        # get data from path
+        # training data
+        self.train_input, self.train_y = load_training_data(train_path)
+        self.num_input, self.num_train_observations = self.train_input.shape
+        self.num_labels, _ = self.train_y.shape
+
+        # testing data
+        self.test_x = load_testing_data(test_path)
+        _ , self.num_test_observations = self.test_x.shape
+        
+        ### add assert to verify sizing of test and train data is compatible
+
         # to store layers (including activation functions)
         self.layers = []
         self.optimizer = None # will be set my a method
@@ -31,7 +45,7 @@ class Network:
         """
         self.optimizer = optimizer
 
-    def forward(self, input_data):
+    def forward_pass(self, input_data):
         """
             Compute the output of the network given the input data
             :param input_data: The input data
@@ -43,8 +57,8 @@ class Network:
             output = layer.forward(output)
         # returns final output of the network
         return output
-
-    def backward(self, loss_gradient):
+    
+    def backward_pass(self, output):
         # for current implementation, loss_gradient will be one-hot encoded labels
         """
             Back propagate the loss through the network
@@ -52,13 +66,16 @@ class Network:
             :return: The gradient of the loss with respect to the input of the network
         """
         # iterate through each layer in reverse order and back propagate the gradient through the layer
-        grad_output = loss_gradient
+        output_grad = self.train_y - output
         for layer in reversed(self.layers):
-            grad_output = layer.backward(grad_output)
+            grad_output = layer.backward_step(grad_output)
         # return the gradient of the loss with respect to the input of the network
         return grad_output
 
-    def train_on_batch(self, x_batch, y_batch):
+    def train(self, epochs):
+        # will have to run forward and save result as output
+        # then run backward with output as an attribute
+
         pass
 
     def fit(self, x_train, y_train, epochs, batch_size):

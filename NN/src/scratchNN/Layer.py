@@ -61,6 +61,7 @@ class Dense(Layer):
         # initialize the weights and biases
         # each input node is connected to each output node 
             # number of weights = input_size * output_size
+        # weights are input weights
         self.weights = np.random.randn(input_size, output_size) * 0.01
         self.biases = np.zeros(output_size)
 

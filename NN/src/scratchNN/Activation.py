@@ -22,7 +22,7 @@ class Activation(ABC):
         pass
 
     @abstractmethod
-    def backward(self, input, grad_output):
+    def backward_step(self, grad_output):
         """
             Compute the gradient of the activation function w.r.t. the input
             :param input: input to the activation function
@@ -30,6 +30,7 @@ class Activation(ABC):
             :return: the gradient of the loss w.r.t the input of the activation function
         """
         pass
+
 
 class ReLU(Activation):
     # ReLU introduces non-linearity and leads to sparsity in the NN's activations
@@ -41,9 +42,10 @@ class ReLU(Activation):
             :param input: input array from previous layer
             :return: output array after applying ReLU    
         """
+        self.input = input
         return np.maximum(0, input)
     
-    def backward(self, input, grad_output):
+    def backward_step(self, grad_output):
         """
             Compute the gradient of the ReLU function w.r.t the input
             :param input: input to the ReLU function
@@ -51,8 +53,10 @@ class ReLU(Activation):
             :return: the gradient of the loss w.r.t the input of the ReLU function
         """
         # ReLU derivative is 1 if input > 0, 0 otherwise
-        relu_grad = input > 0
-        return grad_output * relu_grad
+        print("  ReLU back step")
+        print("    grad_output shape: ", grad_output.shape)
+        print("    input shape: ", self.input.shape) 
+        return (self.input > 0) * grad_output
     
 # !!! works only for classification problems with one-hot encoded labels !!!
 # This softmax implementation is only suitable for the output layer of a classification network
@@ -70,17 +74,18 @@ class SoftMax(Activation):
         # axis=1 corresponds to summing across all logits for each individual data instance
         # keepdims=Trueensures that the output of the sum retains the same dimensions as the input
             # ensures division is properly broadcast over each row
+        self.input = input
         return np.exp(input) / np.sum(np.exp(input), axis=1, keepdims=True)
     
-    def backward(self, input, one_hot_labels):
+    def backward_step(self, grad_output):
         """
             Compute the gradient of the Softmax function w.r.t the input
             :param input: same as input for forward pass
             :param grad_output: corresponds to one-hot encoded labels 
             :return: the gradient of the loss w.r.t the input of the SoftMax function
         """
-        
-        probabilities = np.exp(input) / np.sum(np.exp(input), axis=1, keepdims=True)
-
-        return probabilities - one_hot_labels
+        print("  SoftMax back step")
+        print("    grad_output shape: ", grad_output.shape)
+        print("    input shape: ", self.input.shape)
+        return self.input - grad_output
 

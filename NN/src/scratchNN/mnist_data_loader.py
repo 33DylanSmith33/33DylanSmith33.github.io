@@ -31,13 +31,13 @@ def load_training_data(train_data_path):
     # data contains a ndarray where the first col is the label
     # and the rest of the cols are the pixel values
     train_data = pd.read_csv(train_data_path)
-    train_data = train_data.sample(frac=1).reset_index(drop=True)
+    train_data = train_data.sample(frac=.01).reset_index(drop=True)
     train_input_data = np.array(train_data.iloc[:, 1:].values)
 
     # normalize the pixel values
     train_input_data = train_input_data / 255.0
     # transpose image data so that each column is an observation (image)
-    train_input_data = train_input_data.T
+    train_input_data = train_input_data
 
     train_labels = np.array(train_data.iloc[:, 0].values)
     train_labels = one_hot_encode_label(train_labels)
@@ -89,6 +89,6 @@ def one_hot_encode_label(labels):
         oh_y[index, y] = 1.0
 
     # transpose so that each col is an observation
-    return oh_y.T
+    return oh_y
 
     

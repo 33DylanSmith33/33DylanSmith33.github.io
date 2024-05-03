@@ -14,7 +14,7 @@ class Network:
         # get data from path
         # training data
         self.train_input, self.train_y = load_training_data(train_path)
-        self.num_input, self.num_train_observations = self.train_input.shape
+        self.num_train_observations, self.num_input = self.train_input.shape
         self.num_labels, _ = self.train_y.shape
 
         # testing data
@@ -45,6 +45,10 @@ class Network:
         """
         self.optimizer = optimizer
 
+    def print_layer_sizes(self):
+        for layer in self.layers:
+            print(layer.get_output_shape())
+
     def forward_pass(self, input_data):
         """
             Compute the output of the network given the input data
@@ -66,9 +70,15 @@ class Network:
             :return: The gradient of the loss with respect to the input of the network
         """
         # iterate through each layer in reverse order and back propagate the gradient through the layer
-        output_grad = self.train_y - output
+        grad_output = self.train_y
         for layer in reversed(self.layers):
-            grad_output = layer.backward_step(grad_output)
+            
+            if 'ReLU' in str(type(layer)):
+                grad_output[0] = layer.backward_step(grad_output[0])
+                # grad_output = (holder, grad_output[1], grad_output[2])
+            else:
+                grad_output = layer.backward_step(grad_output)
+            print(type(layer))
         # return the gradient of the loss with respect to the input of the network
         return grad_output
 

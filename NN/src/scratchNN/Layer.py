@@ -28,7 +28,7 @@ class Layer(ABC):
         pass
     
     @abstractmethod
-    def backward(self, grad_output):
+    def backward_step(self, grad_output):
         """
             back propagate the gradient through the layer
             :param grad_output: The gradient of the loss with respect to the output of the layer
@@ -63,7 +63,7 @@ class Dense(Layer):
             # number of weights = input_size * output_size
         # weights are input weights
         self.weights = np.random.randn(input_size, output_size) * 0.01
-        self.biases = np.zeros(output_size)
+        self.biases = np.random.randn(output_size)
 
     def forward(self, input):
         """
@@ -75,7 +75,7 @@ class Dense(Layer):
         self.input = input
         return np.dot(input, self.weights) + self.biases
     
-    def backward(self, grad_output):
+    def backward_step(self, grad_output):
         """
             Back propagate the gradient through the layer
             :param grad_output: The gradient of the loss w.r.t the output of the layer
@@ -104,7 +104,7 @@ class Dense(Layer):
 
         self.grad_weights = grad_weights
         self.grad_biases = grad_biases
-        return grad_input, grad_weights, grad_biases
+        return [grad_input, grad_weights, grad_biases]
     
     def get_parameters_and_gradients(self):
         """

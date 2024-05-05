@@ -72,12 +72,7 @@ class Network:
         # iterate through each layer in reverse order and back propagate the gradient through the layer
         grad_output = self.train_y
         for layer in reversed(self.layers):
-            
-            if 'ReLU' in str(type(layer)):
-                grad_output[0] = layer.backward_step(grad_output[0])
-                # grad_output = (holder, grad_output[1], grad_output[2])
-            else:
-                grad_output = layer.backward_step(grad_output)
+            grad_output = layer.backward_step(grad_output)
             print(type(layer))
         # return the gradient of the loss with respect to the input of the network
         return grad_output

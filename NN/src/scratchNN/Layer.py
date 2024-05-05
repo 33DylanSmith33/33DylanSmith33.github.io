@@ -104,7 +104,7 @@ class Dense(Layer):
 
         self.grad_weights = grad_weights
         self.grad_biases = grad_biases
-        return [grad_input, grad_weights, grad_biases]
+        return grad_input
     
     def get_parameters_and_gradients(self):
         """
